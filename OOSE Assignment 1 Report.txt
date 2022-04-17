@@ -1,0 +1,43 @@
+OOSE Assignment 1 Report
+Criteria Justification:
+2) - Mostly utilize array and array-list containers to store a list of square's features or player's bag of keys. 
+2D array was primarily utilized to hold the maze's data (where it holds the general features without considering the need to output)
+and the maze's grid (used to display the maze to the user). 
+- HashMap weren't really needed due to simplicity of object being stored and lack of distinct names for each square or key to use as 
+a fast look-up method. However, it could partially speed up the process of searching the String name instead of looping through all
+Feature objects, etc.
+- Implementing HashSet here is useless due to the meaning of removing duplicates. It's acceptable to have duplicates of maze square in this 
+game, in addition to lack of concrete methods to remove duplicate if found as it's based on location of them on grid.
+
+3) - All methods are created to achieve reduced common code with methods that call another method(s) to do repetitive steps with different
+inputs corresponding to each condition.
+- Separation of Concern is also considered primarily here with most of the methods broken down to smaller functions which automates 
+sub-tasks disctinctively, which are also declared private appropriately to the use of it. Use of packages is applied too to seperate each
+maze model class respectively to its task, coupling, importance and how it's being utilized accross the whole program. (**Note: due to 
+lecture 5 isn't included in this assignment, I have removed implementing packages in my code due to issues with IDE).
+- Method, interfaces and classes are appropriately named to its purpose with minimal words.
+4) - Error handling is used through custom MazeException class which handles all the game's fatal error which should causes the game to
+crash but exit gracefully with a meaningful and understanding crash message. Gives much better flexibility and decoupling to handle 
+different errors and system's external error such as IO readFile() with the same custom exception class and flexbile output messages.
+- Specifically, MazeException is only thrown in conditions when it obviously will causes program not to function normally. Internal errors
+which are caused by me, the developer, will be explicitly allowed to fail fast, combined with logging to efficiently handle bugs and
+delivering the most efficient fix in a quick manner.
+- Wide range of logging statements are used across the program, especially in Maze and GameMechanic class due to its complexity and
+handling important features and mechanism of interactions between the maze's data structure and the user input.
+5) - Utilizing Strategy Pattern primarily with common features such as of possessing color attributes between Door and Key objects
+and hence, WithColor abstract class is created to holds the common color codes which is inherited by those 2 classes to access a common
+color code along with used to test a feature being of a specific color without typecasting specifically either to one. Hence, it decouples
+testing if a feature just need to be checked to be of a color and no additional need(s) from that feature. It's also used for Feature
+abstract class to have multiple Doors, Keys, Walls,... inherit for decouling a maze square to know of any specific feature(s).
+- These subclasses do partially different tasks but are of common of its nature such as with Feature case, when each specific feature
+populate different area on the grid but they still are feature(s) which belong to a specific entry on maze square and also are validated
+through a square as a Feature.
+- However, Strategy pattern can also be used more here to break-down Maze class to handle projecting each feature(s) onto grid respectively
+of each subclass task ( not applied yet - consider to).
+6) - Major use of Decorator Pattern to recursively aggregate a basic(Generic) maze square to hold as many valid features as possible!
+With this Decorator Pattern, each maze square being stored on the 2D array are of a general Square type which decouples other classes to
+not know of each seperate combination of features on a square, which could become really complicated and high coupling if there're a lot
+of random features added to one maze square location. Hence, it solves the issue of time complexity and high coupling.
+- Subclasses of Feature abstract classes are used to hold the location and extra data(s) distinctively of a maze square but they all 
+add-on(s) to one general maze square only.
+
