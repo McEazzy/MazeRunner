@@ -1,4 +1,3 @@
-
 /**
  * Purpose: to load the game from outside input file and then, validate && suppress non-fatal errors && output the maze as a String
  * Name: Minh Vu
@@ -9,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-@SuppressWarnings("PMD.NoPackage")
+@SuppressWarnings({"PMD.NoPackage", "PMD.PreserveStackTrace"}) // Expected faults will output certain information to player which doesn't require stack-trace 
 public class GameLoader 
 {
     //Class-field:
@@ -39,7 +38,7 @@ public class GameLoader
             String line = reader.readLine();
             if(line != null)
             {
-                String[] sizes = line.split(" ");
+                String[] sizes = line.split(" ", 2);
                 maze.createMaze(Integer.parseInt(sizes[0]) , Integer.parseInt(sizes[1]));
             }
             while((line = reader.readLine()) != null)

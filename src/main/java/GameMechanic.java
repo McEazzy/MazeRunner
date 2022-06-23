@@ -18,7 +18,7 @@ public class GameMechanic
     private boolean firstOutput = true;
     
     //Logger
-    private static final Logger logger = Logger.getLogger(GameMechanic.class.getName()); // NO PMD - Name is fine
+    private static final Logger LOGGER = Logger.getLogger(GameMechanic.class.getName()); // NO PMD - Name is fine
     
     @Override
     public String toString()
@@ -103,8 +103,6 @@ public class GameMechanic
         //if nothing is blocking, reposition the player on the maze
         else if(maze.getGrid()[rowGap][colGap].equals(" "))
         {
-            logger.info(() -> "Check toRow " + toRow + " and toCol " + toCol + " when it should be [1],[0]");
-
             result = configPlayerLocation(toRow, toCol);
         }
         else
@@ -117,7 +115,7 @@ public class GameMechanic
 
     public String configPlayerLocation(int currRow, int currCol)
     {
-        logger.info(() -> "currRow for player here is " + currRow + " and currCol is " + currCol);
+        LOGGER.info(() -> "currRow for player here is " + currRow + " and currCol is " + currCol);
 
         if(player == null)
         {
@@ -148,8 +146,6 @@ public class GameMechanic
             else if(featName.equals("Key"))
             {
                 boolean bagInclude = false;
-
-                //logger.info("Found a key");
 
                 //retrieve the key code from the square
                 Key key = (Key)feat;
@@ -201,8 +197,6 @@ public class GameMechanic
         {
             for(Key removed: removedList)
             {
-                //logger.info(() -> "list of removed keys are " + removedList.toString());
-
                 maze.removeKey(player.getCurrRow(), player.getCurrCol(), removed);
             }
         }

@@ -14,7 +14,7 @@ application {
 
 sourceSets {
     main {
-        resources{
+        resources {
             srcDir 'src/main/resources'
         }
     }

@@ -6,14 +6,14 @@
  */
 import java.util.logging.Logger;
 
-@SuppressWarnings("PMD.NoPackage")
+@SuppressWarnings({"PMD.NoPackage", "PMD.ConfusingTernary"}) //Need of -> ! if statement to include all other character cases outside of being empty in one case
 public class Maze 
 {
     //Constant:
     private final String clearColor = "\033[m";
 
     //Logger
-    private static final Logger logger = Logger.getLogger(Maze.class.getName()); // NO PMD - Name is fine
+    private static final Logger LOGGER = Logger.getLogger(Maze.class.getName()); // NO PMD - Name is fine
 
     //Class-fields:
     private Square[][] maze;
@@ -134,7 +134,7 @@ public class Maze
     @Override
     public String toString()
     {
-        logger.info("Got here!");
+        LOGGER.info("Got here!");
 
         //print out entire grid as one String
         String result = "";
@@ -152,7 +152,7 @@ public class Maze
 
     public void removeKey(int sqrRow, int sqrCol, Feature key)
     {
-        logger.info("check the key is actually removed here");
+        LOGGER.info("check the key is actually removed here");
 
         maze[sqrRow][sqrCol].removeFeature(key);
         updateGrid();
@@ -223,7 +223,7 @@ public class Maze
             test += "\n";
         }
         final String finalT = test;
-        logger.info(()-> "Basic grid layout: \n" + finalT);
+        LOGGER.info(()-> "Basic grid layout: \n" + finalT);
     }
 
     private void editGrid()
@@ -249,7 +249,7 @@ public class Maze
                     int x = i * 2 + 1;
                     int y = j * 4 + 1;
 
-                    logger.info(() -> "Value of x: " + x + " and y: " + y + " on grid.");
+                    LOGGER.info(() -> "Value of x: " + x + " and y: " + y + " on grid.");
 
                     //traverse all the features
                     for(Feature feature: maze[i][j].getFeatures())
@@ -293,33 +293,43 @@ public class Maze
         //vertical door on left
         if(((Door)feature).isVertical())
         {
-            //logger.info(() -> "Visit when vertical door is projected onto grid");
-
             //if the maze border isn't on the left, populate onto grid
             if( y - 1 != 0)
             {
-                //if the door is connected to top border, redecorate the border
+                //if the door is connected to top border, redecorate the top border
                 if( x - 1 == 0)
                 {
                     grid[x - 1][y - 1] = "Â"; // (\u252c)
-                }
-                grid[x][y-1] = colorC + "±" + clearColor; // (\u2592)
+                }     
 
-                //if the door is connected to bottom border, redecorate the border
+                //if the door is connected to bottom border, redecorate the bot border
                 if( x + 1 == gridRows - 1)
                 {
-                    grid[x - 1][y - 1] = "Â"; // (\u252c)
+                    grid[x + 1][y - 1] = "Á"; // 
                 }
+
+                //populate door
+                grid[x][y-1] = colorC + "±" + clearColor; // (\u2592)
             }
         }
         //horizontal door on top
         else
         {
-            //logger.info(() -> "Visit when horizontal door is projected onto grid");
-
             //if the maze border isn't on the top, populate onto grid
             if( x - 1 != 0)
             {
+                //if the door is connected to right border, redecorate the border
+                if(y + 3 == gridCols - 1)
+                {
+                    grid[x - 1][y + 3] = "´";
+                }
+                //if the door is connected to left border, redecorate the border
+                else if(y - 1 == 0)
+                {
+                    grid[x - 1][y - 1] = "Ã";
+                }
+
+                //populate doors
                 for(int i = y; i < y + 3; i++)
                 {
                     grid[x - 1][i] = colorC + "±" + clearColor; // (\u2592)
@@ -330,7 +340,7 @@ public class Maze
 
     private void keyToGrid(int x, int y, String colorC)
     {
-        logger.info(() -> "Visit when key is projected onto grid");
+        LOGGER.info(() -> "Visit when key is projected onto grid");
 
         // ideally indicate the key in the middle of square, otherwise at 2 other places. If it's full, no indication is needed.
         if(grid[x][y + 1].equals(" "))
@@ -369,8 +379,6 @@ public class Maze
         //vertical wall on left
         if(((Wall)feature).isVertical())
         {
-            //logger.info(() -> "Visit when vertical wall is projected onto grid");
-
             //if the maze border isn't on the left, populate onto grid
             if( y - 1 != 0)
             {
@@ -401,8 +409,6 @@ public class Maze
         //horizontal wall on top
         else
         {
-            //logger.info(() -> "Visit when horizontal wall is projected onto grid");
-
             //if the maze border isn't on the top, populate onto grid
             if( x - 1 != 0)
             {
@@ -444,14 +450,14 @@ public class Maze
                 if(grid[i][j].equals("³")) //(\u2502)
                 {
                     //variety of joint wall combinations
-                    if(!grid[i - 1][j].equals(" ")) // NO PMD - Accepting in this case due to need of ! condition
+                    if(!grid[i - 1][j].equals(" "))
                     {
                         if(!grid[i][j + 1].equals(" ")) 
-                        {// NO PMD
+                        {
                             if(!grid[i][j - 1].equals(" "))
                             {
                                 if(!grid[i + 1][j].equals(" ")) 
-                                {// NO PMD
+                                {
                                     grid[i][j] = "Å"; //(\u253c)
                                 }
                                 else
@@ -466,7 +472,7 @@ public class Maze
                         }
                     }
 
-                    if(!grid[i + 1][j].equals(" ")) // NO PMD - Accepting in this case due to complexity
+                    if(!grid[i + 1][j].equals(" "))
                     {
                         if(!grid[i][j + 1].equals(" "))
                         {
@@ -484,7 +490,7 @@ public class Maze
                         }
                     }
 
-                    if(!grid[i - 1][j].equals(" ")) // NO PMD - Accepting in this case due to complexity
+                    if(!grid[i - 1][j].equals(" "))
                     {
                         if(!grid[i][j - 1].equals(" "))
                         {
@@ -494,7 +500,6 @@ public class Maze
                             }   
                         }
                     }
-
 
                     if(!grid[i + 1][j].equals(" ")) // NO PMD - Accepting in this case due to complexity
                     {

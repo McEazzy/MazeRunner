@@ -11,7 +11,7 @@ public abstract class WithColor extends Feature
 {
     //Constant:
     //ASCII string code presenting as colors: red, green, yellow/orange, blue, magenta, and cyan.
-    private static final String[] ColorCodes = {"\033[31m","\033[32m","\033[33m","\033[34m","\033[35m","\033[36m"};
+    private static final String[] COLOR_CODES = {"\033[31m","\033[32m","\033[33m","\033[34m","\033[35m","\033[36m"};
     private int colorIndex;
     
     //Constructor:
@@ -24,6 +24,6 @@ public abstract class WithColor extends Feature
     //Accessor:
     public String getColorCode()
     {
-        return ColorCodes[colorIndex];
+        return COLOR_CODES[colorIndex];
     }
 }
